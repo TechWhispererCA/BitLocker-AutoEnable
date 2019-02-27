@@ -13,25 +13,43 @@ There are three WMI filters that should be used with Group Policy to scope the p
 
 1. Query to validate the TPM is Enabled.
 
-Namespace: root\CIMv2\Security\MicrosoftTPM
-Query: Select * from Win32_TPM Where (IsActivated_InitialValue = "True") and (IsEnabled_InitialValue = "True")
+Namespace:
+
+``root\CIMv2\Security\MicrosoftTPM``
+
+Query:
+
+``Select * from Win32_TPM Where (IsActivated_InitialValue = "True") and (IsEnabled_InitialValue = "True")``
 
 2. Query to validate BitLocker is not protecting the system volume.
 
-Namespace: root\CIMv2\Security\MicrosoftVolumeEncryption Query: Select * from Win32_EncryptableVolume Where (DriveLetter = "C:") and (ProtectionStatus = "0")
+Namespace:
+
+``root\CIMv2\Security\MicrosoftVolumeEncryption``
+
+Query:
+
+``Select * from Win32_EncryptableVolume Where (DriveLetter = "C:") and (ProtectionStatus = "0")``
 
 3. Query to validate the operating system is capable of enabling BitLocker.
 
-Namespace: root\CIMv2 Query: Select * from Win32_OperatingSystem Where ((ProductType != 1) and (Version like "10.0%" or Version like "6.[1-3]%")) or ((Version like "10.0%" or Version like "6.[2-3]%") and (Caption like "%Pro%" or Caption like "%Education%" or Caption like "%Enterprise%")) or ((Version like "6.1%") and (Caption like "%Enterprise%" or Caption like "%Ultimate%"))
+Namespace:
+
+``root\CIMv2``
+
+Query:
+
+``Select * from Win32_OperatingSystem Where ((ProductType != 1) and (Version like "10.0%" or Version like "6.[1-3]%")) or ((Version like "10.0%" or Version like "6.[2-3]%") and (Caption like "%Pro%" or Caption like "%Education%" or Caption like "%Enterprise%")) or ((Version like "6.1%") and (Caption like "%Enterprise%" or Caption like "%Ultimate%"))``
 
 ### Scheduled Task Settings (Computer Configuration)
 Create a scheduled task with the following properties (adjusting as needed):
-* Action: Replace
-* Description: Enable BitLocker
-* User Account: NT AUTHORITY\System
+
+* Action: ``Replace``
+* Description: ``Enable BitLocker``
+* User Account: ``NT AUTHORITY\System``
 * Run with highest privileges: Checked
-* Triggers: At task creation/modification
-* Action: Start a program
- * Program/Script : %windir%\System32\WindowsPowerShell\v1.0\powershell.exe
- * Add arguments: -NonInteractive -ExecutionPolicy Bypass -File \\SPECIFYFILESERVER\SPECIFYFILESHARE\SPECIFYFOLDER\EnableBitLocker.ps1
-* Remove this item when it is no longer applied: Checked
+* Triggers: ``At task creation/modification``
+* Action: ``Start a program``
+ * Program/Script : ``%windir%\System32\WindowsPowerShell\v1.0\powershell.exe``
+ * Add arguments: ``-NonInteractive -ExecutionPolicy Bypass -File \\SPECIFYFILESERVER\SPECIFYFILESHARE\SPECIFYFOLDER\EnableBitLocker.ps1``
+* Remove this item when it is no longer applied: ``Checked``
