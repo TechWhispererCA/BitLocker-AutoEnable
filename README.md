@@ -9,7 +9,7 @@ The script to actually enable BitLocker on the operating system volume.
 ## Deploying with Group Policy
 
 ### WMI Filters
-There are three WMI filters that should be used with Group Policy to scope the policy. The filters will target devices where the TPM is enabled in the BIOS and where BitLocker is not enabled on the system volume. If the Group Policy Management window is running as a standard user, the first two queryies in the root\CIMv2\Security branch will generate an error due to lack of permissions on the local device. This error can be ignored (but copy the query exactly), and will not be present if the Group Policy Management window is elevated.
+There are three WMI filters that should be used with Group Policy to scope the policy. The filters will target devices where the TPM is enabled in the BIOS and where BitLocker is not enabled on the system volume. If the Group Policy Management window is running as a standard user, the first two queries in the root\CIMv2\Security branch will generate an error about the namespace due to lack of permissions on the local device. This error can be ignored and will not be present if the Group Policy Management window is elevated.
 
 1. Query to validate the TPM is Enabled.
 
